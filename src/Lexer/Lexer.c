@@ -271,7 +271,30 @@ static Token *string(char delimiter) {
 			buffer = tmp;
 		}
 
-		buffer[size++] = t;
+		if (t == '\\') {
+			t = next();
+
+			switch (t) {
+				case 'n': {
+					buffer[size++] = '\n';
+
+					break;
+				}
+
+				default: {
+					error("expected char after escape.\n");
+
+					//	TODO: return a ERROR token.
+
+					//return make_token(ERROR, (TokenValue)0);
+
+					exit(EXIT_FAILURE);
+				}
+			}
+		}
+
+		else
+			buffer[size++] = t;
 	}
 
 	return make_token(STRING, (TokenValue)buffer);

@@ -1,15 +1,15 @@
 #	Example of comment
 
-print "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat.";
+print "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat.\n";
 
-print "string two";
+print "string two\n";
 
-$x = 2 * 21;
+#$x = 2 * 21;
 
-$y = 42;
+#$y = 42;
 
-if ($x > $y)
-	print "yes";
-else
-	print "no";
+#if ($x > $y)
+#	print "yes";
+#else
+#	print "no";
 

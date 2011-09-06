@@ -2,6 +2,7 @@
 #include "../Reader/Reader.h"
 
 #include "../Debug/Debug.h"
+#include "../Error/Error.h"
 
 #include "../Token/Token.h"
 #include "../Token/Code.h"

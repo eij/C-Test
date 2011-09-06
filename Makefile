@@ -5,6 +5,8 @@ all:
 		src/Token/Token.h \
 		src/Debug/Debug.h \
 		src/Debug/Debug.c \
+		src/Error/Error.h \
+		src/Error/Error.c \
 		src/Reader/Reader.h \
 		src/Reader/Reader.c \
 		src/Lexer/Lexer.h \

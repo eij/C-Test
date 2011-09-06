@@ -16,24 +16,22 @@ void parser(const char *filename) {
 		switch (t->type) {
 
 			case EOS: {
-				D("Done.\n");
-
-				//	TODO: Gentle exit.
+				//	TODO: gentle exit?
 
 				exit(EXIT_SUCCESS);
 			}
 
-			case IDENTIFIER: {
-				//printf("%s\n", t->value);
+			case ERROR: {
+				exit(EXIT_FAILURE);
+			}
 
+			case IDENTIFIER: {
 				keyword(t->value);
 
 				break;
 			}
 
 		}
-
-		//printf("%d\n", t->type);
 
 		free(t);
 	}
@@ -42,6 +40,28 @@ void parser(const char *filename) {
 }
 
 void keyword(TokenValue id) {
-	printf("K: %s\n", id);
+	if (strcmp("print", id) == 0) __print();
+}
+
+static void __print() {
+	Token *t = malloc(sizeof(Token));
+
+	TokenValue string;
+
+	t = token();
+
+	if (t->type == STRING) string = t->value;
+
+	t = token();
+
+	if (t->type != SEMICOLON) {
+		printf("expected semicolon\n");
+
+		exit(1);
+	}
+	else
+		printf("%s", string);
+
+	free(t);
 }
 

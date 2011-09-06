@@ -2,7 +2,7 @@
 
 #define		EOS			0
 
-#define		UNKNOWN			1
+#define		ERROR			1
 
 #define		IDENTIFIER		2
 
