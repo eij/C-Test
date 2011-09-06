@@ -196,13 +196,36 @@ static Token *make_token(int type, TokenValue value) {
 }
 
 static Token *identifier(char t) {
-	char buffer[ID_NAME_LIMIT]; size_t size = 0;
+	char *buffer;
+
+	size_t size = 0; size_t buffer_size = ID_NAME_LIMIT;
+
+	buffer = malloc(buffer_size);
 
 	do {
 		if (!isalpha(t) && !isdigit(t) && t != '_') {
 			buffer[size++] = '\0';
 
 			break;
+		}
+
+		if (size >= buffer_size) {
+			char *tmp;
+
+			buffer_size *= 2;
+
+			tmp = realloc(buffer, buffer_size);
+
+			if (tmp == NULL) {
+				free(buffer);
+				free(tmp);
+
+				printf("out of mem\n");
+
+				exit(1);
+			}
+
+			buffer = tmp;
 		}
 
 		buffer[size++] = t;
@@ -214,7 +237,9 @@ static Token *identifier(char t) {
 }
 
 static Token *string(char delimiter) {
-	char *buffer; size_t size = 0; size_t buffer_size = 50;
+	char *buffer;
+
+	size_t size = 0; size_t buffer_size = 50;
 
 	buffer = malloc(buffer_size);
 
@@ -253,7 +278,11 @@ static Token *string(char delimiter) {
 }
 
 static Token *variable() {
-	char buffer[VAR_NAME_LIMIT]; size_t size = 0;
+	char *buffer;
+
+	size_t size = 0; size_t buffer_size = VAR_NAME_LIMIT;
+
+	buffer = malloc(buffer_size);
 
 	char t;
 
@@ -264,6 +293,25 @@ static Token *variable() {
 			prev(t);
 
 			break;
+		}
+
+		if (size >= buffer_size) {
+			char *tmp;
+
+			buffer_size *= 2;
+
+			tmp = realloc(buffer, buffer_size);
+
+			if (tmp == NULL) {
+				free(buffer);
+				free(tmp);
+
+				printf("out of mem\n");
+
+				exit(1);
+			}
+
+			buffer = tmp;
 		}
 
 		buffer[size++] = t;

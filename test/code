@@ -4,12 +4,12 @@ print "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempo
 
 print "string two";
 
-#$x = 2 * 21;
+$x = 2 * 21;
 
-#$y = 42;
+$y = 42;
 
-#if ($x > $y)
-#	print "yes";
-#else
-#	print "no";
+if ($x > $y)
+	print "yes";
+else
+	print "no";
 
