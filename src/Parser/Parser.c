@@ -30,7 +30,6 @@ void parser(const char *filename) {
 
 				break;
 			}
-
 		}
 
 		free(t);
@@ -55,9 +54,9 @@ static void __print() {
 	t = token();
 
 	if (t->type != SEMICOLON) {
-		printf("expected semicolon\n");
+		error("expected semicolon\n");
 
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	else
 		printf("%s", string);

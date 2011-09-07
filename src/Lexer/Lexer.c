@@ -30,9 +30,9 @@ Token *token() {
 
 			goto scan;
 
-		//	Junk
+		//	Spaces
 
-		case ' ': case '\t': case '\r': case '\v': case '\f':
+		case ' ': case '\t':
 			goto scan;
 
 		//	Comment
@@ -121,7 +121,7 @@ Token *token() {
 			return make_token(SEMICOLON, (TokenValue)t);
 		}
 
-		//	Operational
+		//	Operators
 
 		case '+': {
 			D(" +");
@@ -152,6 +152,8 @@ Token *token() {
 
 			return make_token(MODULE, (TokenValue)t);
 		}
+
+		//	TODO: implement major-equal, minor-equal.
 
 		case '>': {
 			D(" >");
@@ -188,9 +190,11 @@ static Token *make_token(int type, TokenValue value) {
 
 	t->type = type;
 
-	t->value.s = malloc(sizeof(value.s));
+	//t->value.s = malloc(sizeof(value.s));
 
-	t->value.s = value.s;
+	//t->value.s = value.s;
+
+	t->value = value;
 
 	return t;
 }
@@ -274,22 +278,70 @@ static Token *string(char delimiter) {
 		if (t == '\\') {
 			t = next();
 
-			switch (t) {
-				case 'n': {
-					buffer[size++] = '\n';
+			if (t == delimiter)
+				buffer[size++] = delimiter;
 
-					break;
+			else {
+				char c;
+
+				switch (t) {
+					case 'a': {
+						c = '\a';
+
+						break;
+					}
+
+					case 'b': {
+						c = '\b';
+
+						break;
+					}
+
+					case 'f': {
+						c = '\f';
+
+						break;
+					}
+
+					case 'n': {
+						c = '\n';
+
+						break;
+					}
+
+					case 'r': {
+						c = '\r';
+
+						break;
+					}
+
+					case 't': {
+						c = '\t';
+
+						break;
+					}
+
+					case 'v': {
+						c = '\v';
+
+						break;
+					}
+
+/*
+					case 'x': {
+
+					}
+*/
+					default: {
+						c = '\\';
+
+						prev(t);
+
+						break;
+					}
 				}
 
-				default: {
-					error("expected char after escape.\n");
-
-					//	TODO: return a ERROR token.
-
-					//return make_token(ERROR, (TokenValue)0);
-
-					exit(EXIT_FAILURE);
-				}
+				buffer[size++] = c;
 			}
 		}
 
@@ -346,19 +398,50 @@ static Token *variable() {
 static Token *number(char t) {
 	char buffer[50]; int size = 0;
 
-	do {
-		if (!isdigit(t) && t != '.') {
-			buffer[size++] = '\0';
+	//	Hex
 
-			prev(t);
+	if (t == '0' && (t = next()) == 'x') {
+		buffer[size++] = '0';
+		buffer[size++] = 'x';
 
-			break;
+		while ((t = next()) != EOF) {
+			if (!isxdigit(t)) {
+				if (size < 6) {
+					error("hex error?\n");
+
+					exit(1);
+				}
+
+				else {
+					//buffer[size++] = '\0';
+
+					prev(t);
+
+					break;
+				}
+			}
+
+			buffer[size++] = t;
 		}
-
-		buffer[size++] = t;
 	}
 
-	while ((t = next()) != EOF);
+	else {
+		do {
+			if (!isdigit(t) && t != '.') {
+				//buffer[size++] = '\0';
+
+				prev(t);
+
+				break;
+			}
+
+			buffer[size++] = t;
+		}
+
+		while ((t = next()) != EOF);
+	}
+
+	buffer[size++] = '\0';
 
 	return make_token(INTEGER, (TokenValue)buffer);
 }

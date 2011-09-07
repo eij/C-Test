@@ -2,11 +2,11 @@
 
 print "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat.\n";
 
-print "string two\n";
+$i = 42;
 
-#$x = 2 * 21;
+$f = 42.1;
 
-#$y = 42;
+$h = 0x0001;
 
 #if ($x > $y)
 #	print "yes";
