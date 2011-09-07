@@ -8,19 +8,14 @@
 void parser(const char *filename) {
 	init(filename);
 
-	while (1) {
-		Token *t = malloc(sizeof(Token));
+	Token *t = malloc(sizeof(Token));
 
+	while (1) {
 		t = token();
 
+		if (t->type == EOS) break;
+
 		switch (t->type) {
-
-			case EOS: {
-				//	TODO: gentle exit?
-
-				exit(EXIT_SUCCESS);
-			}
-
 			case ERROR: {
 				exit(EXIT_FAILURE);
 			}
@@ -31,9 +26,9 @@ void parser(const char *filename) {
 				break;
 			}
 		}
-
-		free(t);
 	}
+
+	free(t);
 
 	done();
 }
